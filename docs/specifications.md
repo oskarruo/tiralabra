@@ -1,7 +1,7 @@
 # Project specification
 
 - **Project language**: C++
-- **Other languages that can be reviewed**: Python, JS/TS (or really anything common)
+- **Other languages that can be reviewed**: Python, JS/TS (or other common languages)
 - **Algorithms that will be written**: LZ78 & Huffman coding compression/decompression
 - **Problem that will be solved**: How to compress text without losing data, which algorithm is faster, which algorithm achieves better compression
 - **Inputs of the program**: The program will get a .txt file as an input and will output a new .txt file
