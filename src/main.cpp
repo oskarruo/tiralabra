@@ -3,7 +3,15 @@
 #include <fstream>
 #include <string>
 #include <filesystem>
-#include <unistd.h>
+#ifdef _WIN32
+    #define NOMINMAX
+    #define WIN32_LEAN_AND_MEAN
+    #include "getopt.h"
+    #include <windows.h>
+    #undef byte
+#else
+    #include <unistd.h>
+#endif
 
 using namespace std;
 namespace fs = std::filesystem;
