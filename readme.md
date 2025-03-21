@@ -1,4 +1,8 @@
-# Tiralabra
+# Compression Comparison
+
+[![Tests](https://github.com/oskarruo/tiralabra/actions/workflows/test-and-coverage-linux.yaml/badge.svg)](https://github.com/oskarruo/tiralabra/actions/workflows/test-and-coverage-linux.yaml)
+[![codecov](https://codecov.io/github/oskarruo/tiralabra/graph/badge.svg?token=XWZXH8K9VF)](https://codecov.io/github/oskarruo/tiralabra)
+
 
 ## Documentation
 - [Project specification](/docs/specifications.md)
