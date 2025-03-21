@@ -1,0 +1,40 @@
+name: Run Tests and Upload Coverage on Linux
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake gcc g++ lcov gcovr
+
+      - name: Build and run tests
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          ctest -C Debug --output-on-failure
+
+      - name: Generate coverage report with gcovr
+        run: |
+          gcovr -r .. --filter ../src/ --lcov -o coverage_report.info
+          
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          file: coverage_report.info
+          token: ${{ secrets.CODECOV_TOKEN }}
