@@ -36,5 +36,5 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          file: coverage_report.info
+          files: coverage_report.info
           token: ${{ secrets.CODECOV_TOKEN }}
