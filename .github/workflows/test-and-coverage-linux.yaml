@@ -31,7 +31,7 @@ jobs:
 
       - name: Generate coverage report with gcovr
         run: |
-          gcovr -r .. --filter ../src/ --lcov -o coverage_report.info
+          gcovr -r .. --filter ../src/ --exclude '../test/.*' --lcov -o coverage_report.info
           
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
