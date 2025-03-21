@@ -90,7 +90,10 @@ void lz_decompress(fs::path input_filename, string output_filename) {
         if (input_file.eof()) break;
 
         input_file.read(&character, sizeof(character));
-        if (input_file.eof()) break;
+        if (input_file.eof()) {
+            message[message_index] = make_tuple(prefix_index, "");
+            break;
+        }
 
         message[message_index] = make_tuple(prefix_index, string(1, character));
         message_index++;
