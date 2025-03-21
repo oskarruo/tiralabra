@@ -1,4 +1,4 @@
-name: Run Tests and Upload Coverage on Linux
+name: Tests
 
 on:
   push:
