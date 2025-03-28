@@ -1,4 +1,5 @@
 #include "lz78.h"
+#include "huffman.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -77,8 +78,8 @@ int main(int argc, char* argv[]) {
     }
 
     if (algorithm.empty()) {
-        cout << "No algorithm specified, using lz78" << endl;
-        algorithm = "lz78";
+        cout << "No algorithm specified, using huffman" << endl;
+        algorithm = "huffman";
     }
     if (!compress && !decompress) {
         cout << "No operation specified, defaulting to compress" << endl;
@@ -110,7 +111,11 @@ int main(int argc, char* argv[]) {
             lz_decompress(input_filename, output_filename);
         }
     } else if (algorithm == "huffman") {
-        return 0;
+        if (compress) {
+            huff_compress(input_text, output_filename);
+        } else if (decompress) {
+            huff_decompress(input_filename, output_filename);
+        }
     }
 
     return 0;
