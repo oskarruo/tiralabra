@@ -15,7 +15,17 @@ namespace fs = std::filesystem;
  * @param input The input string to be compressed.
  * @param output_filename The name of the output .txt file.
  */
-void lz_compress(string input, string output_filename) {
+void lz_compress(fs::path input_filename, string output_filename) {
+    string input = "";
+    string line;
+    ifstream input_file(input_filename);
+    if (input_file.is_open()) {
+        while(getline(input_file, line)) {
+            input += line + "\n";
+          }
+        input_file.close();
+    }
+
     unordered_map<string, int> dictionary;
     string prefix = "";
     int index = 1;

@@ -57,7 +57,17 @@ unordered_map<char, string> get_codes(Node* root, Writer& writer, int& bit_count
     return codes;
 };
 
-void huff_compress(string input, string output_filename) {
+void huff_compress(fs::path input_filename, string output_filename) {
+    string input = "";
+    string line;
+    ifstream input_file(input_filename);
+    if (input_file.is_open()) {
+        while(getline(input_file, line)) {
+            input += line + "\n";
+          }
+        input_file.close();
+    }
+
     unordered_map<char, int> characters;
     int bit_count = 4;
     for (char c : input) {

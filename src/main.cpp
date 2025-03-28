@@ -93,25 +93,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    string line;
-    string input_text;
-    ifstream input_file(input_filename);
-    if (input_file.is_open()) {
-        while(getline(input_file, line)) {
-            input_text += line + "\n";
-          }
-        input_file.close();
-    }
-
     if (algorithm == "lz78") {
         if (compress) {
-            lz_compress(input_text, output_filename);
+            lz_compress(input_filename, output_filename);
         } else if (decompress) {
             lz_decompress(input_filename, output_filename);
         }
     } else if (algorithm == "huffman") {
         if (compress) {
-            huff_compress(input_text, output_filename);
+            huff_compress(input_filename, output_filename);
         } else if (decompress) {
             huff_decompress(input_filename, output_filename);
         }
