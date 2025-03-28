@@ -5,6 +5,7 @@
 
 #include "huffman/huffman.h"
 #include "lz78/lz78.h"
+#include "utils/bitio.h"
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -18,78 +19,87 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+/**
+ * @brief The main function for the program that calls the
+ * compression/decompression functions.
+ *
+ * @param argc Number of command line arguments.
+ * @param argv Command line arguments.
+ * @return int Exit status of the program.
+ */
 int main(int argc, char* argv[]) {
+  // If the user does not provide any arguments, print the usage message and
+  // exit.
   if (argc < 2) {
     cerr << "Usage: " << argv[0] << " [options] file" << endl;
     return 1;
   }
 
+  // Initialize variables for option count and arguments.
   int opt;
   string output_filename, algorithm;
   bool compress = false, decompress = false;
 
-  while ((opt = getopt(argc, argv, "a:cdo:")) != -1) {
+  // Parse command line arguments using getopt.
+  while ((opt = getopt(argc, argv, "a:o:")) != -1) {
     switch (opt) {
       case 'a':
+        // Set the algorithm to use for compression/decompression.
         algorithm = optarg;
         if (algorithm != "lz78" && algorithm != "huffman") {
           cerr << "Invalid algorithm" + algorithm << endl;
           return 1;
         }
         break;
-      case 'c':
-        compress = true;
-        if (decompress) {
-          cerr << "Cannot compress and decompress at the same time" << endl;
-          return 1;
-        }
-        break;
-      case 'd':
-        decompress = true;
-        if (compress) {
-          cerr << "Cannot compress and decompress at the same time" << endl;
-          return 1;
-        }
-        break;
       case 'o':
+        // Set the output filename for the compressed/decompressed file.
         output_filename = optarg;
         break;
       case '?':
-        cerr << "Unknown or missing argument for option: " << char(optopt)
-             << std::endl;
+        // Handle unknown options.
+        cerr << "Unknown option: " << (char)optopt << endl;
         return 1;
     }
   }
 
+  // Check that the user has provided an input file.
   if (optind >= argc) {
     cerr << "No input file specified" << endl;
     return 1;
   }
 
+  // Get the input filename and extension from the command line arguments.
   fs::path input_filename = argv[optind];
-  if (compress) {
-    if (input_filename.string().substr(input_filename.string().length() - 4) !=
-        ".txt") {
-      cerr << "Input file must be a text file" << endl;
-      return 1;
-    }
-  } else if (decompress) {
-    if (input_filename.string().substr(input_filename.string().length() - 4) !=
-        ".bin") {
-      cerr << "Input file must be a binary file" << endl;
-      return 1;
-    }
-  }
-
-  if (algorithm.empty()) {
-    cout << "No algorithm specified, using huffman" << endl;
-    algorithm = "huffman";
-  }
-  if (!compress && !decompress) {
-    cout << "No operation specified, defaulting to compress" << endl;
+  string input_extension =
+      input_filename.string().substr(input_filename.string().length() - 4);
+  // Automatically set the algorithm based on the input file extension.
+  // If the input is a .bin file check the first bit which indicates the
+  // algorithm used.
+  if (input_extension == ".txt") {
     compress = true;
+  } else if (input_extension == ".bin") {
+    decompress = true;
+    Reader reader(input_filename);
+    int first_bit = reader.read_bit();
+    if (first_bit == 0) {
+      algorithm = "lz78";
+    } else {
+      algorithm = "huffman";
+    }
+  } else {
+    // If the input file is not a .txt or .bin file, print an error message and
+    // exit.
+    cerr << "Invalid input file extension: " << input_extension << endl;
+    return 1;
   }
 
+  // If the user has not specified an algorithm, set it to lz78 by default.
+  if (algorithm.empty()) {
+    cout << "No algorithm specified, using lz78" << endl;
+    algorithm = "lz78";
+  }
+
+  // If the user has not specified an output filename, set a default name.
   if (output_filename.empty()) {
     if (compress) {
       output_filename = input_filename.stem().string() + "_compressed.bin";
@@ -98,6 +108,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
+  // Call the appropriate compression/decompression function.
   if (algorithm == "lz78") {
     if (compress) {
       lz_compress(input_filename, output_filename);
@@ -112,5 +123,6 @@ int main(int argc, char* argv[]) {
     }
   }
 
+  // Finish execution.
   return 0;
 }
