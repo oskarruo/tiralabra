@@ -1,9 +1,9 @@
 #ifndef LZ78_H
 #define LZ78_H
 
-#include <string>
-#include <list>
 #include <filesystem>
+#include <list>
+#include <string>
 using namespace std;
 namespace fs = std::filesystem;
 

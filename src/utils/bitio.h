@@ -1,57 +1,57 @@
 #ifndef BITIO_H
 #define BITIO_H
 
-#include <fstream>
-#include <filesystem>
-#include <string>
-#include <iostream>
 #include <bitset>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
 namespace fs = std::filesystem;
 
 class Writer {
-    ofstream out;
-    string byte;
-    int bit_count;
+  ofstream out;
+  string byte;
+  int bit_count;
 
-public:
-    Writer(const string filename);
+ public:
+  Writer(const string filename);
 
-    ~Writer();
+  ~Writer();
 
-    void write_int(int value, int bit_length);
+  void write_int(int value, int bit_length);
 
-    void write_char(char value);
+  void write_char(char value);
 
-    void write_binary_string(string binary);
+  void write_binary_string(string binary);
 
-    void write_bit_char(char bit);
+  void write_bit_char(char bit);
 
-    void flush();
+  void flush();
 };
 
 class Reader {
-    ifstream in;
-    string byte;
-    int bit_count;
-    bool end;
+  ifstream in;
+  string byte;
+  int bit_count;
+  bool end;
 
-public:
-    Reader(fs::path filename);
+ public:
+  Reader(fs::path filename);
 
-    ~Reader();
+  ~Reader();
 
-    int read_int(int bit_length);
+  int read_int(int bit_length);
 
-    int read_bit();
+  int read_bit();
 
-    char read_char();
+  char read_char();
 
-    int bits_left();
+  int bits_left();
 
-    bool is_end();
+  bool is_end();
 };
 
 #endif
