@@ -22,8 +22,9 @@ Writer::~Writer() {
 }
 
 void Writer::write_int(int value, int bit_length) {
-    string binary = bitset<32>(value).to_string().substr(32 - bit_length);
-    
+    string binary = bitset<32>(value).to_string();
+    binary = binary.substr(32 - bit_length);
+
     for (char bit : binary) {
         byte += bit;
         bit_count++;
@@ -104,7 +105,7 @@ int Reader::read_int(int bit_length) {
     string value_str = byte.substr(0, bit_length);
     byte = byte.substr(bit_length);
 
-    return static_cast<int>(bitset<8>(value_str).to_ulong());
+    return static_cast<int>(bitset<32>(value_str).to_ulong());
 }
 
 int Reader::read_bit() {
