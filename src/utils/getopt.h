@@ -42,7 +42,7 @@ char    *optarg;                /* argument associated with option */
 
 #define BADCH   (int)'?'
 #define BADARG  (int)':'
-#define EMSG    ""
+#define EMSG    static_cast<const char*>("")
 
 /*
  * getopt --
@@ -50,7 +50,7 @@ char    *optarg;                /* argument associated with option */
  */
 int getopt(int nargc, char * const nargv[], const char *ostr)
 {
-  static char *place = EMSG;              /* option letter processing */
+  static const char *place = EMSG;              /* option letter processing */
   const char *oli;                              /* option letter list index */
 
   if (optreset || !*place) {              /* update scanning pointer */
@@ -86,7 +86,7 @@ int getopt(int nargc, char * const nargv[], const char *ostr)
   }
   else {                                  /* need an argument */
     if (*place)                     /* no white space */
-      optarg = place;
+      optarg = const_cast<char*>(place);
     else if (nargc <= ++optind) {   /* no arg */
       place = EMSG;
       if (*ostr == ':')
