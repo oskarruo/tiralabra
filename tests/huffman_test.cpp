@@ -1,4 +1,4 @@
-#include "../src/lz78/lz78.h"
+#include "../src/huffman/huffman.h"
 #include <gtest/gtest.h>
 #include <fstream>
 #include <filesystem>
@@ -6,7 +6,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-class LZ78FileTest : public ::testing::Test {
+class HuffmanFileTest : public ::testing::Test {
 protected:
     string input_filename = "test_input.txt";
     string compressed_filename = "test_compressed.bin";
@@ -24,8 +24,8 @@ protected:
     }
 };
 
-TEST_F(LZ78FileTest, TestLZ78Compress) {
-    lz_compress(input_filename, compressed_filename);
+TEST_F(HuffmanFileTest, TestHuffmanCompress) {
+    huff_compress(input_filename, compressed_filename);
 
     ASSERT_TRUE(fs::exists(compressed_filename));
 
@@ -35,10 +35,10 @@ TEST_F(LZ78FileTest, TestLZ78Compress) {
     compressed_file.close();
 }
 
-TEST_F(LZ78FileTest, TestLZ78Decompress) {
-    lz_compress(input_filename, compressed_filename);
+TEST_F(HuffmanFileTest, TestHuffmanDecompress) {
+    huff_compress(input_filename, compressed_filename);
 
-    lz_decompress(compressed_filename, decompressed_filename);
+    huff_decompress(compressed_filename, decompressed_filename);
 
     ASSERT_TRUE(fs::exists(decompressed_filename));
 
@@ -52,10 +52,10 @@ TEST_F(LZ78FileTest, TestLZ78Decompress) {
     decompressed_file.close();
 }
 
-TEST_F(LZ78FileTest, TestLZ78CompressDecompressBiggerFile) {
-    lz_compress("test.txt", compressed_filename);
+TEST_F(HuffmanFileTest, TestHuffmanCompressDecompressBiggerFile) {
+    huff_compress("test.txt", compressed_filename);
 
-    lz_decompress(compressed_filename, decompressed_filename);
+    huff_decompress(compressed_filename, decompressed_filename);
 
     ASSERT_TRUE(fs::exists(decompressed_filename));
 

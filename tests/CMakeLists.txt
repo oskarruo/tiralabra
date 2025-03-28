@@ -16,9 +16,29 @@ add_executable(lz78_test
     lz78_test.cpp
 )
 
+add_executable(huffman_test
+    ../src/huffman/huffman.cpp
+    ../src/utils/bitio.cpp
+    huffman_test.cpp
+)
+
 target_link_libraries(lz78_test gtest gtest_main)
+
+target_link_libraries(huffman_test gtest gtest_main)
+
+add_custom_command(
+    TARGET lz78_test POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/tests/test.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/test.txt
+)
 
 add_test(
     NAME lz78_tests
     COMMAND lz78_test
+)
+
+add_test(
+    NAME huffman_tests
+    COMMAND huffman_test
 )
