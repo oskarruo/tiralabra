@@ -6,7 +6,9 @@
 
 ## Documentation
 - [Project specification](/docs/specifications.md)
+- [Testing report](/docs/testingreport.md)
 
 ## Weekly reports
 - [Week 1](/docs/weeklyreports/weeklyreport1.md)
 - [Week 2](/docs/weeklyreports/weeklyreport2.md)
+- [Week 3](/docs/weeklyreports/weeklyreport3.md)
