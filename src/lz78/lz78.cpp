@@ -1,5 +1,5 @@
 #include "lz78.h"
-#include "bitio.h"
+#include "../utils/bitio.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>

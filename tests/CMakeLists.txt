@@ -11,7 +11,8 @@ FetchContent_MakeAvailable(gtest)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable(lz78_test
-    ../src/lz78.cpp
+    ../src/lz78/lz78.cpp
+    ../src/utils/bitio.cpp
     lz78_test.cpp
 )
 

@@ -1,4 +1,5 @@
-#include "bitio.h"
+#include "huffman.h"
+#include "../utils/bitio.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>

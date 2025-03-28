@@ -1,5 +1,5 @@
-#include "lz78.h"
-#include "huffman.h"
+#include "lz78/lz78.h"
+#include "huffman/huffman.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,7 +7,7 @@
 #ifdef _WIN32
     #define NOMINMAX
     #define WIN32_LEAN_AND_MEAN
-    #include "getopt.h"
+    #include "utils/getopt.h"
     #include <windows.h>
     #undef byte
 #else

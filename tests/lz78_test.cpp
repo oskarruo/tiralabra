@@ -1,7 +1,7 @@
+#include "../src/lz78/lz78.h"
 #include <gtest/gtest.h>
 #include <fstream>
 #include <filesystem>
-#include "lz78.h"
 
 using namespace std;
 namespace fs = std::filesystem;
