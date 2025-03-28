@@ -15,6 +15,6 @@ I will have to look into it and try to make it faster.
 | Day | Time used | Description |
 | ----- | ------------- | ------ |
 | 24.3.  | 5h            | Reading source material, writing the huffman algorithms |
-| 27.3.  | 4h            | Writing the bitio reader/writer classes and seting the algorithms to use them |
+| 27.3.  | 4h            | Writing the bitio reader/writer classes and setting the algorithms to use them |
 | 28.3.  | 5h            | Fixing bugs, writing tests, writing documentation |
 | Total | 14h         |        |
