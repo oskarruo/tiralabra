@@ -36,6 +36,7 @@ void lz_compress(fs::path input_filename, string output_filename) {
   int index = 1;
   int index_bits = 1;
   Writer writer(output_filename);
+  writer.write_bit_char(0);
 
   /*
   Iterate through the input string.
@@ -88,6 +89,7 @@ void lz_decompress(fs::path input_filename, string output_filename) {
   unordered_map<int, tuple<int, string>> message;
   int message_index = 0;
   Reader reader(input_filename);
+  reader.read_bit();
   int index_bits = 1;
 
   // Loop through the input file

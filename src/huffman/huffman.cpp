@@ -111,7 +111,7 @@ void huff_compress(fs::path input_filename, string output_filename) {
 
   // Count the frequency of each character.
   unordered_map<char, int> characters;
-  int bit_count = 4;
+  int bit_count = 5;
   for (char c : input) {
     if (c == '\0') continue;
     if (characters.find(c) == characters.end()) {
@@ -145,6 +145,7 @@ void huff_compress(fs::path input_filename, string output_filename) {
   // Get the codes for each character.
   Node* root = q.top();
   Writer writer(output_filename);
+  writer.write_bit_char(1);
   unordered_map<char, string> codes = get_codes(root, writer, bit_count);
 
   /*
@@ -221,6 +222,7 @@ void huff_decompress(fs::path input_filename, string output_filename) {
   // Initialize the reader object, the code dictionary, and deconstruct the
   // Huffman tree.
   Reader reader(input_filename);
+  reader.read_bit();
   unordered_map<string, char> codes;
   Node* root = deconstruct_tree(reader);
 
