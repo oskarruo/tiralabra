@@ -71,8 +71,7 @@ int main(int argc, char* argv[]) {
 
   // Get the input filename and extension from the command line arguments.
   fs::path input_filename = argv[optind];
-  string input_extension =
-      input_filename.string().substr(input_filename.string().length() - 4);
+  string input_extension = input_filename.extension().string();
   // Automatically set the algorithm based on the input file extension.
   // If the input is a .bin file check the first bit which indicates the
   // algorithm used.

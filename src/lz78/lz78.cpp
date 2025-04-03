@@ -46,18 +46,16 @@ void lz_compress(fs::path input_filename, string output_filename) {
   Update the index and index_bits.
   */
   for (char c : input) {
-    string prefix_c = prefix + c;
-    if (dictionary.find(prefix_c) != dictionary.end()) {
-      prefix = prefix_c;
+    prefix.push_back(c);
+    if (dictionary.find(prefix) != dictionary.end()) {
+      continue;
     } else {
-      int cwprefix;
-      if (prefix == "")
-        cwprefix = 0;
-      else
-        cwprefix = dictionary[prefix];
-      dictionary[prefix_c] = index;
+      int cwprefix = (prefix.size() == 1)
+                         ? 0
+                         : dictionary[prefix.substr(0, prefix.size() - 1)];
+      dictionary[prefix] = index;
       index++;
-      prefix = "";
+      prefix.clear();
       writer.write_int(cwprefix, index_bits);
       writer.write_char(c);
       index_bits = ceil(log2(index));
