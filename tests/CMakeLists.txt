@@ -33,6 +33,13 @@ add_custom_command(
         ${CMAKE_CURRENT_BINARY_DIR}/test.txt
 )
 
+add_custom_command(
+    TARGET lz78_test POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/tests/big_test.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/big_test.txt
+)
+
 add_test(
     NAME lz78_tests
     COMMAND lz78_test

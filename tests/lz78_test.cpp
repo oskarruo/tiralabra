@@ -78,3 +78,28 @@ TEST_F(LZ78FileTest, TestLZ78CompressDecompressBiggerFile) {
   decompressed_file.close();
   original_file.close();
 }
+
+TEST_F(LZ78FileTest, TestLZ78CompressDecompressEvenBiggerFile) {
+  lz_compress("big_test.txt", compressed_filename);
+
+  lz_decompress(compressed_filename, decompressed_filename);
+
+  ASSERT_TRUE(fs::exists(decompressed_filename));
+
+  ifstream decompressed_file(decompressed_filename);
+  ifstream original_file("big_test.txt");
+  ASSERT_TRUE(decompressed_file.is_open());
+  ASSERT_TRUE(original_file.is_open());
+
+  string original_content, decompressed_content;
+
+  while (getline(original_file, original_content)) {
+    ASSERT_TRUE(getline(decompressed_file, decompressed_content));
+    ASSERT_EQ(decompressed_content, original_content);
+  }
+
+  ASSERT_FALSE(getline(decompressed_file, decompressed_content));
+
+  decompressed_file.close();
+  original_file.close();
+}
