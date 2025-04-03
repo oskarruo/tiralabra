@@ -36,7 +36,7 @@ void lz_compress(fs::path input_filename, string output_filename) {
   int index = 1;
   int index_bits = 1;
   Writer writer(output_filename);
-  writer.write_bit_char(0);
+  writer.write_bit(0);
 
   /*
   Iterate through the input string.

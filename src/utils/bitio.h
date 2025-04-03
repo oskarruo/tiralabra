@@ -13,21 +13,22 @@ namespace fs = std::filesystem;
 
 class Writer {
   ofstream out;
-  string byte;
+  uint8_t byte;
   int bit_count;
+  vector<char> buffer;
 
  public:
   Writer(const string filename);
 
   ~Writer();
 
+  void write_bit(int bit);
+
   void write_int(int value, int bit_length);
 
   void write_char(char value);
 
-  void write_binary_string(string binary);
-
-  void write_bit_char(char bit);
+  void write_binary_string(const string& binary);
 
   void flush();
 };

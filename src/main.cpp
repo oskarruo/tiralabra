@@ -1,3 +1,4 @@
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -111,13 +112,21 @@ int main(int argc, char* argv[]) {
   // Call the appropriate compression/decompression function.
   if (algorithm == "lz78") {
     if (compress) {
+      auto start = chrono::high_resolution_clock::now();
       lz_compress(input_filename, output_filename);
+      auto end = chrono::high_resolution_clock::now();
+      chrono::duration<double> elapsed = end - start;
+      cout << "Compression time: " << elapsed.count() << " seconds" << endl;
     } else if (decompress) {
       lz_decompress(input_filename, output_filename);
     }
   } else if (algorithm == "huffman") {
     if (compress) {
+      auto start = chrono::high_resolution_clock::now();
       huff_compress(input_filename, output_filename);
+      auto end = chrono::high_resolution_clock::now();
+      chrono::duration<double> elapsed = end - start;
+      cout << "Compression time: " << elapsed.count() << " seconds" << endl;
     } else if (decompress) {
       huff_decompress(input_filename, output_filename);
     }

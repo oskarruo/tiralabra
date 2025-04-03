@@ -57,14 +57,14 @@ void traverse_tree(Node* node, string code, unordered_map<char, string>& codes,
   // If the node is a leaf, write the character and its code.
   if (node->c != nullopt) {
     codes[node->c.value()] = code;
-    writer.write_bit_char(1);
+    writer.write_bit(1);
     writer.write_char(node->c.value());
     bit_count += 9;
     delete node;
   }
   // If the node is not a leaf, write 0 and traverse the children.
   else {
-    writer.write_bit_char(0);
+    writer.write_bit(0);
     bit_count += 1;
     if (node->l != nullptr) {
       traverse_tree(node->l, code + "0", codes, writer, bit_count);
@@ -110,22 +110,20 @@ void huff_compress(fs::path input_filename, string output_filename) {
   }
 
   // Count the frequency of each character.
-  unordered_map<char, int> characters;
+  int characters[256] = {0};
   int bit_count = 5;
   for (char c : input) {
     if (c == '\0') continue;
-    if (characters.find(c) == characters.end()) {
-      characters[c] = 1;
-    } else
-      characters[c] += 1;
+    characters[c]++;
   }
-
   // Create a priority queue for the characters and create initial isolated
   // nodes.
   priority_queue<Node*, vector<Node*>, CompareCharacter> q;
-  for (auto c : characters) {
-    Node* leaf = new Node(c.first, c.second);
-    q.emplace(leaf);
+  for (int i = 0; i < 256; ++i) {
+    if (characters[i] > 0) {
+      Node* leaf = new Node(static_cast<char>(i), characters[i]);
+      q.emplace(leaf);
+    }
   }
 
   // Create the Huffman tree.
@@ -145,23 +143,25 @@ void huff_compress(fs::path input_filename, string output_filename) {
   // Get the codes for each character.
   Node* root = q.top();
   Writer writer(output_filename);
-  writer.write_bit_char(1);
+  writer.write_bit(1);
   unordered_map<char, string> codes = get_codes(root, writer, bit_count);
 
   /*
   Calculate the padding that will be used in the end and write it to the output
   as a 4 bit integer.
   */
-  for (char c : input) {
-    bit_count += codes[c].size();
+  for (int i = 0; i < 256; ++i) {
+    if (characters[i] > 0) {
+      bit_count += characters[i] * codes[static_cast<char>(i)].size();
+    }
   }
   writer.write_int((8 - (bit_count % 8)) % 8, 4);
 
   // Write the code of each character to the output.
   for (char c : input) {
-    string code = codes[c];
-    writer.write_binary_string(code);
+    writer.write_binary_string(codes[c]);
   }
+
   // Flush the writer.
   writer.flush();
 }

@@ -16,17 +16,43 @@ namespace fs = std::filesystem;
  * @param filename The name of the .bin file for output.
  */
 Writer::Writer(const string filename) {
-  // Open the file, initialize a string for the current byte, and set the bit
-  // count to 0.
+  // Open the file, initialize the byte to 0, the bit count to 0, and reserve
+  // space in the buffer.
   out.open(filename, ios::binary);
-  byte = "";
+  byte = 0;
   bit_count = 0;
+  buffer.reserve(4096);
 }
 
-// The destructor class closes the file if it is open.
+// The destructor class flushes the buffer and closes the file if it is open.
 Writer::~Writer() {
+  flush();
   if (out.is_open()) {
     out.close();
+  }
+}
+
+/**
+ * @brief Writes a single bit to the output.
+ *
+ * @param bit The bit to be written.
+ */
+void Writer::write_bit(int bit) {
+  // Add the bit to the byte and increment the bit count.
+  byte = (byte << 1) | (bit & 1);
+  bit_count++;
+
+  // If the byte is full (8 bits), write it to the buffer and reset the bit
+  // count.
+  if (bit_count == 8) {
+    buffer.push_back(static_cast<char>(byte));
+    bit_count = 0;
+    byte = 0;
+
+    // If the buffer is full (4KB), flush it to the output file.
+    if (buffer.size() >= 4096) {
+      flush();
+    }
   }
 }
 
@@ -37,22 +63,8 @@ Writer::~Writer() {
  * @param bit_length The number of bits to be written.
  */
 void Writer::write_int(int value, int bit_length) {
-  // Convert the integer to a binary string and get the amount of bits needed.
-  string binary = bitset<32>(value).to_string();
-  binary = binary.substr(32 - bit_length);
-
-  // Iterate through the binary string and add bits to the byte.
-  for (char bit : binary) {
-    byte += bit;
-    bit_count++;
-
-    // Add byte to output when full.
-    if (bit_count == 8) {
-      char write_byte = static_cast<char>(bitset<8>(byte).to_ulong());
-      out.write(&write_byte, 1);
-      byte = "";
-      bit_count = 0;
-    }
+  for (int i = bit_length - 1; i >= 0; --i) {
+    write_bit((value >> i) & 1);
   }
 }
 
@@ -62,21 +74,8 @@ void Writer::write_int(int value, int bit_length) {
  * @param value The character to be written.
  */
 void Writer::write_char(char value) {
-  // Convert the character to a binary string.
-  string binary = bitset<8>(static_cast<unsigned char>(value)).to_string();
-
-  // Iterate through the binary string and add bits to the byte.
-  for (char bit : binary) {
-    byte += bit;
-    bit_count++;
-
-    // Add byte to output when full.
-    if (bit_count == 8) {
-      char write_byte = static_cast<char>(bitset<8>(byte).to_ulong());
-      out.write(&write_byte, 1);
-      byte = "";
-      bit_count = 0;
-    }
+  for (int i = 7; i >= 0; --i) {
+    write_bit((value >> i) & 1);
   }
 }
 
@@ -85,36 +84,31 @@ void Writer::write_char(char value) {
  *
  * @param binary The binary string to be written.
  */
-void Writer::write_binary_string(string binary) {
-  // Iterate through the string and write each bit using write_int.
+void Writer::write_binary_string(const string& binary) {
+  // Iterate through the binary string and write each bit to the output.
   for (char bit : binary) {
-    write_int(bit, 1);
+    write_bit(bit - '0');
   }
-}
-
-/**
- * @brief Writes a single bit to the output.
- *
- * @param bit The bit to be written.
- */
-void Writer::write_bit_char(char bit) {
-  // Write the bit using write_int.
-  write_int(bit, 1);
 }
 
 /**
  * @brief Flushes the remaining bits to the output.
  */
 void Writer::flush() {
-  // If there are remaining bits, add 0s to the byte until it is full, then
-  // write to output.
+  // Add padding bits to the byte if there are any remaining bits.
   if (bit_count > 0) {
     while (bit_count < 8) {
-      byte += '0';
+      byte <<= 1;
       bit_count++;
     }
-    char write_byte = static_cast<char>(bitset<8>(byte).to_ulong());
-    out.write(&write_byte, 1);
+    buffer.push_back(static_cast<char>(byte));
+    bit_count = 0;
+  }
+
+  // Write the buffer to the output file and clear it.
+  if (!buffer.empty()) {
+    out.write(buffer.data(), buffer.size());
+    buffer.clear();
   }
 }
 
