@@ -6,7 +6,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -23,7 +22,7 @@ class Writer {
   // Number of bits written to the current byte.
   int bit_count;
   // Buffer to store the bytes before writing to the file.
-  vector<char> buffer;
+  string buffer;
 
  public:
   // Constructor that opens the file and initializes variables.
@@ -59,9 +58,9 @@ class Reader {
   // Number of bits left in the current byte.
   int bit_count;
   // Buffer to store the bytes read from the file.
-  vector<char> buffer;
+  string buffer;
   // Buffer to store the next bytes read from the file.
-  vector<char> next_buffer;
+  string next_buffer;
   // Index of the current byte in the buffer.
   size_t buffer_index;
   // Bool to indicate if the end of the file has been reached.
