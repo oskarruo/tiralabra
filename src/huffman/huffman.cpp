@@ -230,9 +230,18 @@ void huff_decompress(fs::path input_filename, string output_filename) {
   int padding = reader.read_int(4);
   ofstream output_file(output_filename);
 
+  // If the padding is 0 set it to 1. This prevents the last character from
+  // being ignored.
+  if (padding == 0) {
+    padding++;
+  }
+
   // Decode the characters until the padding is reached.
-  while (reader.bits_left() > padding) {
+  while (true) {
     char c = decode_char(root, reader);
+    if (reader.is_next_end() && reader.bits_left() < padding) {
+      break;
+    }
     output_file << c;
   }
 }

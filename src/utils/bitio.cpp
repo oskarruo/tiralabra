@@ -118,12 +118,20 @@ void Writer::flush() {
  * @param filename The path of the .bin file for input.
  */
 Reader::Reader(fs::path filename) {
-  // Open the file, initialize a string for the current byte, set the bit count
-  // to 0, and set the eof bool to false.
+  /**
+   * Open the file, initialize the byte to 0, the bit count to 0,
+   * set end to false, and initialize the buffer.
+   * */
   in.open(filename, ios::binary);
-  byte = "";
+  byte = 0;
   bit_count = 0;
   end = false;
+  next_end = false;
+  buffer_index = 0;
+  next_buffer.resize(4096);
+  in.read(next_buffer.data(), next_buffer.size());
+  next_buffer.resize(in.gcount());
+  refill_buffer();
 }
 
 // The destructor class closes the file if it is open.
@@ -134,43 +142,43 @@ Reader::~Reader() {
 }
 
 /**
+ * @brief Reads a single bit from the input.
+ *
+ * @return int The bit read from the input.
+ */
+int Reader::read_bit() {
+  // If the bit count is 0, refill the buffer if necessary.
+  if (bit_count == 0) {
+    if (buffer_index >= buffer.size()) {
+      refill_buffer();
+      if (buffer.empty()) {
+        return 0;
+      }
+    }
+    // Read the next byte from the buffer.
+    byte = static_cast<uint8_t>(buffer[buffer_index++]);
+    bit_count = 8;
+  }
+
+  // Read the bit from the byte and decrement the bit count.
+  bit_count--;
+  return (byte >> bit_count) & 1;
+}
+
+/**
  * @brief Reads an integer from the input.
  *
  * @param bit_length The number of bits to be read.
  * @return int The integer read from the input.
  */
 int Reader::read_int(int bit_length) {
-  // Read bytes from the input until the current byte in memory has enough bits
-  // to read the integer.
-  while (byte.length() < bit_length) {
-    char byte_read;
-    if (!in.read(&byte_read, sizeof(byte_read))) {
-      end = true;
-      return 0;
-    }
-
-    // Convert the byte to a binary string and add it to the current byte in
-    // memory.
-    string byte_str =
-        bitset<8>(static_cast<unsigned char>(byte_read)).to_string();
-    byte += byte_str;
+  // Read the specified number of bits and return the integer value.
+  int value = 0;
+  for (int i = 0; i < bit_length; i++) {
+    value = (value << 1) | read_bit();
   }
-
-  // Get the value of the integer from the current byte in memory and remove the
-  // bits read from the byte.
-  string value_str = byte.substr(0, bit_length);
-  byte = byte.substr(bit_length);
-
-  // Return the integer value.
-  return static_cast<int>(bitset<32>(value_str).to_ulong());
+  return value;
 }
-
-/**
- * @brief Reads a single bit from the input.
- *
- * @return int The bit read from the input.
- */
-int Reader::read_bit() { return read_int(1); }
 
 /**
  * @brief Reads a character from the input.
@@ -178,47 +186,46 @@ int Reader::read_bit() { return read_int(1); }
  * @return char The character read from the input.
  */
 char Reader::read_char() {
-  // Read bytes from the input until the current byte in memory has enough bits
-  // to read the character.
-  while (byte.length() < 8) {
-    char byte_read;
-    if (!in.read(&byte_read, sizeof(byte_read))) {
-      end = true;
-      return '\0';
-    }
-
-    // Convert the byte to a binary string and add it to the current byte in
-    // memory.
-    string byte_str =
-        bitset<8>(static_cast<unsigned char>(byte_read)).to_string();
-    byte += byte_str;
+  // Read 8 bits and return the character value.
+  unsigned char c = 0;
+  for (int i = 0; i < 8; i++) {
+    c = (c << 1) | read_bit();
   }
-
-  // Get the value of the character from the current byte in memory and remove
-  // the bits read from the byte.
-  string value_str = byte.substr(0, 8);
-  byte = byte.substr(8);
-
-  // Return the character value.
-  return static_cast<char>(bitset<8>(value_str).to_ulong());
+  return static_cast<char>(c);
 }
 
 /**
- * @brief Returns the number of bits left in the input.
+ * @brief Refills the buffer by reading a 4 KB chunk from the input file.
+ */
+void Reader::refill_buffer() {
+  // Set the buffer to the next buffer and reset the buffer index.
+  buffer = next_buffer;
+  buffer_index = 0;
+
+  // If the buffer is not empty try to read the next buffer.
+  if (!buffer.empty()) {
+    next_buffer.clear();
+    next_buffer.resize(4096);
+    in.read(next_buffer.data(), next_buffer.size());
+    next_buffer.resize(in.gcount());
+
+    // If the next buffer is empty, set end to true.
+    if (next_buffer.empty()) {
+      next_end = true;
+    }
+  } else {
+    // If the buffer is empty, set end to true.
+    end = true;
+  }
+}
+
+/**
+ * @brief Returns the number of bits left in the current buffer.
  *
- * @return int The number of bits left in the input.
+ * @return int The number of bits left in the current buffer.
  */
 int Reader::bits_left() {
-  // Get the number of bits in the current byte in memory and the number of bits
-  // left in the input.
-  int buffer_bits = byte.length();
-  in.seekg(0, ios::cur);
-  size_t current_pos = in.tellg();
-  in.seekg(0, ios::end);
-  size_t end_pos = in.tellg();
-  in.seekg(current_pos, ios::beg);
-  size_t remaining_bytes = end_pos - current_pos;
-  return buffer_bits + (remaining_bytes * 8);
+  return (buffer.size() - buffer_index) * 8 + bit_count;
 }
 
 /**
@@ -226,4 +233,15 @@ int Reader::bits_left() {
  *
  * @return bool Whether the end of the input has been reached.
  */
+// This method is used in specifically in the LZ decompression (as opposed to
+// is_next_end).
 bool Reader::is_end() { return end; }
+
+/**
+ * @brief Returns whether the next buffer is the end of the input.
+ *
+ * @return bool Whether the next buffer is the end of the input.
+ */
+// This method is used in specifically in the Huffman decompression (as opposed
+// to is_end).
+bool Reader::is_next_end() { return next_end; }

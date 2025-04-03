@@ -118,7 +118,11 @@ int main(int argc, char* argv[]) {
       chrono::duration<double> elapsed = end - start;
       cout << "Compression time: " << elapsed.count() << " seconds" << endl;
     } else if (decompress) {
+      auto start = chrono::high_resolution_clock::now();
       lz_decompress(input_filename, output_filename);
+      auto end = chrono::high_resolution_clock::now();
+      chrono::duration<double> elapsed = end - start;
+      cout << "Decompression time: " << elapsed.count() << " seconds" << endl;
     }
   } else if (algorithm == "huffman") {
     if (compress) {
@@ -128,7 +132,11 @@ int main(int argc, char* argv[]) {
       chrono::duration<double> elapsed = end - start;
       cout << "Compression time: " << elapsed.count() << " seconds" << endl;
     } else if (decompress) {
+      auto start = chrono::high_resolution_clock::now();
       huff_decompress(input_filename, output_filename);
+      auto end = chrono::high_resolution_clock::now();
+      chrono::duration<double> elapsed = end - start;
+      cout << "Decompression time: " << elapsed.count() << " seconds" << endl;
     }
   }
 
