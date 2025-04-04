@@ -71,7 +71,9 @@ int getopt(int nargc, char *const nargv[], const char *ostr) {
      */
     if (optopt == (int)'-') return (-1);
     if (!*place) ++optind;
-    if (opterr && *ostr != ':') (void)printf("illegal option -- %c\n", optopt);
+    if (opterr && *ostr != ':')
+      throw std::invalid_argument("illegal option -- " +
+                                  std::string(1, optopt));
     return (BADCH);
   }
   if (*++oli != ':') { /* don't need argument */
@@ -83,7 +85,9 @@ int getopt(int nargc, char *const nargv[], const char *ostr) {
     else if (nargc <= ++optind) { /* no arg */
       place = EMSG;
       if (*ostr == ':') return (BADARG);
-      if (opterr) (void)printf("option requires an argument -- %c\n", optopt);
+      if (opterr)
+        throw std::invalid_argument("option requires an argument -- " +
+                                    std::string(1, optopt));
       return (BADCH);
     } else /* white space */
       optarg = nargv[optind];
