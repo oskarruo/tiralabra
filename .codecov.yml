@@ -2,3 +2,9 @@ coverage:
   ignore:
     - "build/*"
     - "tests/*"
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
