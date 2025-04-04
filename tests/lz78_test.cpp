@@ -8,24 +8,30 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+/**
+ * @brief A test class for testing the LZ78 algorithms.
+ */
 class LZ78FileTest : public ::testing::Test {
  protected:
   string input_filename = "test_input.txt";
   string compressed_filename = "test_compressed.bin";
   string decompressed_filename = "test_decompressed.txt";
 
+  // Create test files before each test.
   void SetUp() override {
     ofstream input_file(input_filename);
     input_file << "test input";
     input_file.close();
   }
 
+  // Remove test files after each test.
   void TearDown() override {
     fs::remove(compressed_filename);
     fs::remove(decompressed_filename);
   }
 };
 
+// Test compress.
 TEST_F(LZ78FileTest, TestLZ78Compress) {
   lz_compress(input_filename, compressed_filename);
 
@@ -37,6 +43,7 @@ TEST_F(LZ78FileTest, TestLZ78Compress) {
   compressed_file.close();
 }
 
+// Test decompress.
 TEST_F(LZ78FileTest, TestLZ78Decompress) {
   lz_compress(input_filename, compressed_filename);
 
@@ -54,6 +61,7 @@ TEST_F(LZ78FileTest, TestLZ78Decompress) {
   decompressed_file.close();
 }
 
+// Test compress and decompress with a bigger file.
 TEST_F(LZ78FileTest, TestLZ78CompressDecompressBiggerFile) {
   lz_compress("test.txt", compressed_filename);
 
@@ -79,6 +87,7 @@ TEST_F(LZ78FileTest, TestLZ78CompressDecompressBiggerFile) {
   original_file.close();
 }
 
+// Test compress and decompress with an even bigger file.
 TEST_F(LZ78FileTest, TestLZ78CompressDecompressEvenBiggerFile) {
   lz_compress("big_test.txt", compressed_filename);
 

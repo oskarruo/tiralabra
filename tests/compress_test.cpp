@@ -11,6 +11,9 @@
 
 namespace fs = std::filesystem;
 
+/**
+ * @brief A test class for testing the main function.
+ */
 class CompressionTest : public ::testing::Test {
  protected:
   string incompatible_filename = "test_incompatible.cpp";
@@ -18,6 +21,7 @@ class CompressionTest : public ::testing::Test {
   string compressed_filename = "test_compressed.bin";
   string decompressed_filename = "test_decompressed.txt";
 
+  // Create test files before each test.
   void SetUp() override {
     ofstream input_file(input_filename);
     input_file << "test input";
@@ -27,6 +31,7 @@ class CompressionTest : public ::testing::Test {
     incompatible_file.close();
   }
 
+  // Remove test files after each test.
   void TearDown() override {
     fs::remove(compressed_filename);
     fs::remove(decompressed_filename);
@@ -35,6 +40,7 @@ class CompressionTest : public ::testing::Test {
   }
 };
 
+// Test for case with no arguments.
 TEST_F(CompressionTest, MissingArguments) {
   testing::internal::CaptureStderr();
   const char* argv[] = {"program"};
@@ -45,6 +51,7 @@ TEST_F(CompressionTest, MissingArguments) {
   ASSERT_TRUE(output.find("Usage: ") != std::string::npos);
 }
 
+// Test for case with invalid algorithm.
 TEST_F(CompressionTest, InvalidAlgorithm) {
   testing::internal::CaptureStderr();
   const char* argv[] = {"program", "-a", "lol", input_filename.c_str()};
@@ -55,6 +62,7 @@ TEST_F(CompressionTest, InvalidAlgorithm) {
   ASSERT_TRUE(output.find("Invalid algorithm: lol") != std::string::npos);
 }
 
+// Test for case with no input file specified.
 TEST_F(CompressionTest, NoInputFile) {
   testing::internal::CaptureStderr();
   const char* argv[] = {"program", "-o", compressed_filename.c_str()};
@@ -65,6 +73,7 @@ TEST_F(CompressionTest, NoInputFile) {
   ASSERT_TRUE(output.find("No input file specified") != std::string::npos);
 }
 
+// Test for case with non-existent input file.
 TEST_F(CompressionTest, InputFileDoesNotExist) {
   testing::internal::CaptureStderr();
   const char* argv[] = {"program", "-o", compressed_filename.c_str(),
@@ -76,6 +85,7 @@ TEST_F(CompressionTest, InputFileDoesNotExist) {
   ASSERT_TRUE(output.find("Input file does not exist: ") != std::string::npos);
 }
 
+// Test for case with invalid input file extension.
 TEST_F(CompressionTest, IncompatibleFileExtension) {
   testing::internal::CaptureStderr();
   const char* argv[] = {"program", "-o", compressed_filename.c_str(),
@@ -88,6 +98,7 @@ TEST_F(CompressionTest, IncompatibleFileExtension) {
               std::string::npos);
 }
 
+// Test for main function running the LZ algorithm.
 TEST_F(CompressionTest, CompressDecompressLZ) {
   const char* argv[] = {"program", "-o", compressed_filename.c_str(),
                         input_filename.c_str()};
@@ -109,6 +120,7 @@ TEST_F(CompressionTest, CompressDecompressLZ) {
   ASSERT_EQ(decompressed_content, "test input");
 }
 
+// Test for main function running the Huffman algorithm.
 TEST_F(CompressionTest, CompressDecompressHuffman) {
   const char* argv[] = {"program",
                         "-a",
