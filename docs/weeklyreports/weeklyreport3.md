@@ -1,4 +1,4 @@
-# Weekly report, week 2
+# Weekly report, week 3
 
 This week I wrote the Huffman compression and decompression algorithms and tests for them.
 I also implemented writer/reader classes for writing and reading bits in .bin files and changed the lz78 algorithms to use them.
