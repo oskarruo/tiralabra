@@ -112,11 +112,16 @@ int cc(int argc, char* argv[]) {
   // Call the appropriate compression/decompression function.
   if (algorithm == "lz78") {
     if (compress) {
+      auto input_size = fs::file_size(input_filename);
       auto start = chrono::high_resolution_clock::now();
       lz_compress(input_filename, output_filename);
       auto end = chrono::high_resolution_clock::now();
       chrono::duration<double> elapsed = end - start;
       cout << "Compression time: " << elapsed.count() << " seconds" << endl;
+      auto output_size = fs::file_size(output_filename);
+      double compression_ratio = (double)output_size / input_size * 100.0;
+      cout << "Compressed to " << compression_ratio << "% of original size"
+           << endl;
     } else if (decompress) {
       auto start = chrono::high_resolution_clock::now();
       lz_decompress(input_filename, output_filename);
@@ -126,11 +131,16 @@ int cc(int argc, char* argv[]) {
     }
   } else if (algorithm == "huffman") {
     if (compress) {
+      auto input_size = fs::file_size(input_filename);
       auto start = chrono::high_resolution_clock::now();
       huff_compress(input_filename, output_filename);
       auto end = chrono::high_resolution_clock::now();
       chrono::duration<double> elapsed = end - start;
       cout << "Compression time: " << elapsed.count() << " seconds" << endl;
+      auto output_size = fs::file_size(output_filename);
+      double compression_ratio = (double)output_size / input_size * 100.0;
+      cout << "Compressed to " << compression_ratio << "% of original size"
+           << endl;
     } else if (decompress) {
       auto start = chrono::high_resolution_clock::now();
       huff_decompress(input_filename, output_filename);
