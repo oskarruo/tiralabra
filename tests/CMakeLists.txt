@@ -26,48 +26,48 @@ add_executable(compress_missingarguments_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 add_executable(compress_invalidalgorithm_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 add_executable(compress_noinputfile_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 add_executable(compress_inputfiledoesnotexist_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 add_executable(compress_compressdecompresslz_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 add_executable(compress_compressdecompresshuffman_test
     ../src/lz78/lz78.cpp
     ../src/huffman/huffman.cpp
     ../src/utils/bitio.cpp
-    ../src/compress.cpp
-    compress_test.cpp
+    ../src/cc.cpp
+    cc_test.cpp
 )
 
 target_link_libraries(lz78_test gtest gtest_main)

@@ -6,7 +6,7 @@ add_subdirectory(utils)
 
 add_executable(main 
     main.cpp 
-    compress.cpp
+    cc.cpp
     huffman/huffman.cpp 
     lz78/lz78.cpp 
     utils/bitio.cpp

@@ -1,4 +1,4 @@
-#include "../src/compress.h"
+#include "../src/cc.h"
 
 #include <gtest/gtest.h>
 

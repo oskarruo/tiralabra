@@ -1,4 +1,4 @@
-#include "compress.h"
+#include "cc.h"
 /**
  * @brief An entry point for the program.
  *
