@@ -5,9 +5,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <unordered_map>
 
 #include "../utils/bitio.h"
+#include "../utils/robin_hood.h"
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -31,7 +31,7 @@ void lz_compress(fs::path input_filename, string output_filename) {
 
   // Initialize the dictionary, prefix, index, index_bits (how many bits are
   // needed for the index), and the writer.
-  unordered_map<string, int> dictionary;
+  robin_hood::unordered_map<string, int> dictionary;
   string prefix = "";
   int index = 1;
   int index_bits = 1;
@@ -84,7 +84,7 @@ void lz_decompress(fs::path input_filename, string output_filename) {
   Initialize the dictionary for the encoded message, the message index, the
   reader, and the index_bits (how many bits are needed for the index).
   */
-  unordered_map<int, tuple<int, string>> message;
+  robin_hood::unordered_map<int, tuple<int, string>> message;
   int message_index = 0;
   Reader reader(input_filename);
   reader.read_bit();
@@ -111,7 +111,7 @@ void lz_decompress(fs::path input_filename, string output_filename) {
 
   // Initialize the dictionary and the output file.
   ofstream output_file(output_filename);
-  unordered_map<int, string> dictionary;
+  robin_hood::unordered_map<int, string> dictionary;
   int index = 1;
 
   // Loop through the message dictionary and write the decoded message to the

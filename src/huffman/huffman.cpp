@@ -6,9 +6,9 @@
 #include <optional>
 #include <queue>
 #include <string>
-#include <unordered_map>
 
 #include "../utils/bitio.h"
+#include "../utils/robin_hood.h"
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -52,7 +52,8 @@ struct CompareCharacter {
  * @param writer The writer object.
  * @param bit_count The amount of meaningful bits in the output.
  */
-void traverse_tree(Node* node, string code, unordered_map<char, string>& codes,
+void traverse_tree(Node* node, string& code,
+                   robin_hood::unordered_map<char, string>& codes,
                    Writer& writer, int& bit_count) {
   // If the node is a leaf, write the character and its code.
   if (node->c != nullopt) {
@@ -66,12 +67,16 @@ void traverse_tree(Node* node, string code, unordered_map<char, string>& codes,
   else {
     writer.write_bit(0);
     bit_count += 1;
+    code.push_back('0');
     if (node->l != nullptr) {
-      traverse_tree(node->l, code + "0", codes, writer, bit_count);
+      traverse_tree(node->l, code, codes, writer, bit_count);
     }
+    code.pop_back();
+    code.push_back('1');
     if (node->r != nullptr) {
-      traverse_tree(node->r, code + "1", codes, writer, bit_count);
+      traverse_tree(node->r, code, codes, writer, bit_count);
     }
+    code.pop_back();
     delete node;
   }
 }
@@ -82,12 +87,13 @@ void traverse_tree(Node* node, string code, unordered_map<char, string>& codes,
  * @param root The root node of the Huffman tree.
  * @param writer The writer object.
  * @param bit_count The amount of meaningful bits in the output.
- * @return unordered_map<char, string> The dictionary of codes.
+ * @return robin_hood::unordered_map<char, string> The dictionary of codes.
  */
-unordered_map<char, string> get_codes(Node* root, Writer& writer,
-                                      int& bit_count) {
-  unordered_map<char, string> codes;
-  traverse_tree(root, "", codes, writer, bit_count);
+robin_hood::unordered_map<char, string> get_codes(Node* root, Writer& writer,
+                                                  int& bit_count) {
+  robin_hood::unordered_map<char, string> codes;
+  string code = "";
+  traverse_tree(root, code, codes, writer, bit_count);
   return codes;
 };
 
@@ -144,7 +150,8 @@ void huff_compress(fs::path input_filename, string output_filename) {
   Node* root = q.top();
   Writer writer(output_filename);
   writer.write_bit(1);
-  unordered_map<char, string> codes = get_codes(root, writer, bit_count);
+  robin_hood::unordered_map<char, string> codes =
+      get_codes(root, writer, bit_count);
 
   /*
   Calculate the padding that will be used in the end and write it to the output
@@ -223,7 +230,7 @@ void huff_decompress(fs::path input_filename, string output_filename) {
   // Huffman tree.
   Reader reader(input_filename);
   reader.read_bit();
-  unordered_map<string, char> codes;
+  robin_hood::unordered_map<string, char> codes;
   Node* root = deconstruct_tree(reader);
 
   // Read the 4 bits that tell the padding and create the output file.
