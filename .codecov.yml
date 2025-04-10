@@ -2,6 +2,8 @@ coverage:
   ignore:
     - "build/*"
     - "tests/*"
+    - "**/*.h"
+    - "**/*.hpp"
 
 parsers:
   gcov:
