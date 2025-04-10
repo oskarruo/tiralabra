@@ -25,24 +25,32 @@ The utils folder contains 3 files (excluding CMakeLists).
 - bitio.cpp contains the writer and reader class implementations. These are used to write and read information on the bit level from byte-level .bin files.
 - bitio.h is the header file for bitio.cpp
 - getopt.h is a header file which provides the getopt-function that parses command line arguments. It is needed for the arguments to work on Windows.
+- robin_hood.h is a header file that provides the robin_hood::unordered_map hashmap which is faster than the c++ standard unordered_map
 
-The program structure can be represented as a flow chart:
+The program structure based on the files can be represented as a flow chart:
 
 ```mermaid
 flowchart LR
   A[main/cc] <-->|gets command-line arguments| B[getopt]
-  A <-.->|if decompress, to infer the algorithm| G[bitio.Reader]
+  A <-.->|if decompress, to infer the algorithm| G((bitio.Reader))
   A -.->|if lz or not specified| C[lz78]
   A -.->|if huffman| D[huffman]
-  C -.->|if compress| E[bitio.Writer]
-  C <-.->|if decompress| F[bitio.Reader]
-  D -.->|if compress| E[bitio.Writer]
-  D <-.->|if decompress| F[bitio.Reader]
+  C -.->|if compress| E((bitio.Writer))
+  C <-.->|if decompress| F((bitio.Reader))
+  D -.->|if compress| E((bitio.Writer))
+  D <-.->|if decompress| F((bitio.Reader))
+  C --> H{{robin_hood::unordered_map}}
+  D --> H{{robin_hood::unordered_map}}
 ```
-where:
+Where:
+
+For functions (rectangles) and classes (circles)
 - Dashed Line: Represents an optional call.
 - One-Ended Arrow: Represents a unidirectional call, where the left node calls right and does not receive a return value.
 - Two-Ended Arrow: Represents a bidirectional call, where the left node calls right and potentially receives a return value.
+
+And for variables (hexagons)
+- One-Ended Arrow: Represents the left node using the variable type on the right node.
 
 ## Potential flaws
 
