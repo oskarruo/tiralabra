@@ -20,7 +20,7 @@ The huffman folder holds 2 files (excluding CMakeLists).
 - huffman.cpp contains the implementation of the Huffman coding compression/decompression algorithms. It uses the writer class from utils/bitio.cpp when compressing and the reader class when decompressing.
 - huffman.h is the header file for huffman.cpp
 
-The utils folder contains 3 files (excluding CMakeLists).
+The utils folder contains 4 files (excluding CMakeLists).
 
 - bitio.cpp contains the writer and reader class implementations. These are used to write and read information on the bit level from byte-level .bin files.
 - bitio.h is the header file for bitio.cpp
