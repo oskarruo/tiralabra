@@ -31,7 +31,7 @@ The program structure can be represented as a flow chart:
 ```mermaid
 flowchart LR
   A[main/cc] <-->|gets command-line arguments| B[getopt]
-  A <-.->|if decompress, to infer the algorithm| G[bitio.Writer]
+  A <-.->|if decompress, to infer the algorithm| G[bitio.Reader]
   A -.->|if lz or not specified| C[lz78]
   A -.->|if huffman| D[huffman]
   C -.->|if compress| E[bitio.Writer]
