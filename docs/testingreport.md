@@ -17,7 +17,7 @@ The tests compare each line of the original and decompressed files and fails if 
 The main function of the program is unit tested with possible error cases.
 The main tests also verify that the main function interacts correctly with the compression functions.
 So they could be considered as end-to-end tests as well. 
-The unit tests can be replicated by building the project with CMake (using MinGW Makefiles) and then running CTest in the build directory.
+The unit tests can be replicated by building the project with CMake (using GCC) and then running CTest in the build directory.
 
 ## Efficiency testing
 
