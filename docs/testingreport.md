@@ -23,6 +23,7 @@ The unit tests can be replicated by building the project with CMake (using MinGW
 
 The program's efficiency is tested manually by running the program on .txt file eBooks containing natural language from the Project Gutenberg library.
 The test inputs are converted into ASCII only, as the program does not support UTF-8 characters.
+The tests are run on a PC with i7-10700k CPU and Samsung 970 EVO Plus SSD.
 
 The selected test inputs are:
 
@@ -34,22 +35,34 @@ The selected test inputs are:
 | 4 | [Soldering, Brazing and Welding by Bernard E. Jones](https://www.gutenberg.org/ebooks/52074) | 232 944 bytes |
 | 5 | [Hitchhiker's Guide to the Internet by Ed Krol](https://www.gutenberg.org/ebooks/39) | 70 552 bytes |
 
-### LZ78
+### Results: LZ78
 
 | File Number | Compression time | Compressed size | Decompression time |
 |---- | ----- | ------------- | ---- |
-| 1 | 1.63081 s | 2 523 983 bytes (41.384% of original) | 0.963513 s |
-| 2 | 0.923856 s | 1 549 077 bytes (42.4689% of original) | 0.590499 s |
-| 3 | 0.328629 s | 676 879 bytes (50.0583% of original)  | 0.264959 s |
-| 4 | 0.0526217 s | 119 188 bytes (51.1659% of original) | 0.0494239 s |
-| 5 | 0.0168942 s | 38 446 bytes (54.4931% of original) | 0.0160961 s |
+| 1 | 1.0113 s | 2 523 983 bytes (41.384% of original) | 0.956958 s |
+| 2 | 0.639119 s | 1 549 077 bytes (42.4689% of original) | 0.629769 s |
+| 3 | 0.251665 s | 676 879 bytes (50.0583% of original)  | 0.285039 s |
+| 4 | 0.0505991 s | 119 188 bytes (51.1659% of original) | 0.0454227 s |
+| 5 | 0.0145373 s | 38 446 bytes (54.4931% of original) | 0.0175181 s |
 
-### Huffman
+### Results: Huffman
 
 | File Number | Compression time | Compressed size | Decompression time |
 |---- | ----- | ------------- | ---- |
-| 1 | 0.814294 s | 3 503 596 bytes (57.4461% of original) | 0.485306 s |
-| 2 | 0.497773 s | 2 054 791 bytes (56.3334% of original) | 0.294376 s |
-| 3 | 0.18845 s | 774 266 bytes (57.2605% of original) | 0.11193 s |
-| 4 | 0.0324285 s | 131 391 bytes (56.4045% of original) | 0.0191856 s |
-| 5 | 0.0104685 s | 39 845 bytes (56.4761% of original) | 0.0062247 s |
+| 1 | 0.776622 s | 3 503 596 bytes (57.4461% of original) | 0.496903 s |
+| 2 | 0.465985 s | 2 054 791 bytes (56.3334% of original) | 0.307026 s |
+| 3 | 0.178603 s | 774 266 bytes (57.2605% of original) | 0.115687 s |
+| 4 | 0.0304196 s | 131 391 bytes (56.4045% of original) | 0.0198418 s |
+| 5 | 0.0112692 s | 39 845 bytes (56.4761% of original) | 0.0064111 s |
+
+### Analysis
+
+![image](test_graphs.png)
+
+Based on the test results it seems that the Huffman coding algorithm is faster in both compression and decompression.
+This time difference gap seems to grow for both compression and decompression with the latter growing faster.
+
+In terms of compression efficiency, the LZ78 gets better results.
+As the input size grows larger, the LZ78 algorithm gets more size reduction.
+Notably, it seems that the input size has no effect on the compression efficiency of the Huffman coding algorithm.
+Some of the larger files actually get worse results than smaller ones. 
