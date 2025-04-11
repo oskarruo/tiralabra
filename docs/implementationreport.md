@@ -52,9 +52,22 @@ For functions (rectangles) and classes (circles)
 And for variables (hexagons)
 - One-Ended Arrow: Represents the left node using the variable type on the right node.
 
+## Achieved time complexities
+
+The planned time complexities were able to be reached:
+
+- LZ78 compression: O(N)
+- LZ78 decompression: O(N)
+- Huffman coding compression: O(N + log N) (effectively O(N) as the priority queue which has log insertion/extraction has at most 256 elements)
+- Huffman coding decompression: O(N)
+
+## Efficiency testing
+
+The testing of the efficiency of the algorithms is documented in the [testing report](testingreport.md#efficiency-testing)
+
 ## Potential flaws
 
-After analysing the times of each step in an algorithm, it seems that the majority of the time is taken by the writing and reading operations. I am certainly not an expert at writing I/O stuff, so this could potentially be made faster. 
+After analysing the times of each step in an algorithm, it seems that the majority of the time is taken by the writing and reading operations. Re-writing the writer/reader classes more efficiently could potentially make the algorithms faster. 
 
 ## LLM usage
 
