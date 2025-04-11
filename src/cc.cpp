@@ -33,6 +33,11 @@ int cc(int argc, char* argv[]) {
   // exit.
   if (argc < 2) {
     cerr << "Usage: " << argv[0] << " [options] file" << endl;
+    cerr << "Options:" << endl;
+    cerr << "  -a algorithm  Specify the algorithm to use for compression: "
+            "lz78(default)/huffman"
+         << endl;
+    cerr << "  -o filename   Specify the output filename" << endl;
     return 1;
   }
 
