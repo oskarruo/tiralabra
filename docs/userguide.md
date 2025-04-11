@@ -54,14 +54,16 @@ If built with GCC, the program will be located in the src directory of the build
 The program works on the command line followingly:
 
 ```
-main.exe [options] input_file.txt/.bin
+main.exe [options] input_filepath
 ```
 or 
 ```
-./main [options] input_file.txt/.bin
+./main [options] input_filepath
 ```
-An input file to be compressed must be a .txt file.
-An input file to be decompressed must be a .bin file.
+**An input file to be compressed must be a .txt file.**
+
+**An input file to be decompressed must be a .bin file.**
+
 The operation compress/decompress is inferred by the program based on the file extension.
 
 The options are:
