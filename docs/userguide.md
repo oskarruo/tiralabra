@@ -60,7 +60,11 @@ or
 ```
 ./main [options] input_file.txt/.bin
 ```
-where the options are:
+An input file to be compressed must be a .txt file.
+An input file to be decompressed must be a .bin file.
+The operation compress/decompress is inferred by the program based on the file extension.
+
+The options are:
 ```
 -a "lz78"(default)/"huffman"  
     Specifies the compression algorithm. If omitted, LZ78 is used by default.
