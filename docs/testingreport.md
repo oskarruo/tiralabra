@@ -39,21 +39,21 @@ The selected test inputs are:
 
 | File Number | Compression time | Compressed size | Decompression time |
 |---- | ----- | ------------- | ---- |
-| 1 | 1.0113 s | 2 523 983 bytes (41.384% of original) | 0.956958 s |
-| 2 | 0.639119 s | 1 549 077 bytes (42.4689% of original) | 0.629769 s |
-| 3 | 0.251665 s | 676 879 bytes (50.0583% of original)  | 0.285039 s |
-| 4 | 0.0505991 s | 119 188 bytes (51.1659% of original) | 0.0454227 s |
-| 5 | 0.0145373 s | 38 446 bytes (54.4931% of original) | 0.0175181 s |
+| 1 | 0.997554 s | 2 523 983 bytes (41.384% of original) | 0.947925 s |
+| 2 | 0.636617 s | 1 549 077 bytes (42.4689% of original) | 0.622523 s |
+| 3 | 0.248689 s | 676 879 bytes (50.0583% of original)  | 0.280689 s |
+| 4 | 0.0496594 s | 119 188 bytes (51.1659% of original) | 0.0443276 s |
+| 5 | 0.0144075 s | 38 446 bytes (54.4931% of original) | 0.0174719 s |
 
 ### Results: Huffman
 
 | File Number | Compression time | Compressed size | Decompression time |
 |---- | ----- | ------------- | ---- |
-| 1 | 0.776622 s | 3 503 596 bytes (57.4461% of original) | 0.496903 s |
-| 2 | 0.465985 s | 2 054 791 bytes (56.3334% of original) | 0.307026 s |
-| 3 | 0.178603 s | 774 266 bytes (57.2605% of original) | 0.115687 s |
-| 4 | 0.0304196 s | 131 391 bytes (56.4045% of original) | 0.0198418 s |
-| 5 | 0.0112692 s | 39 845 bytes (56.4761% of original) | 0.0064111 s |
+| 1 | 0.773198 s | 3 503 596 bytes (57.4461% of original) | 0.491377 s |
+| 2 | 0.461918 s | 2 054 791 bytes (56.3334% of original) | 0.294589 s |
+| 3 | 0.177548 s | 774 266 bytes (57.2605% of original) | 0.111617 s |
+| 4 | 0.0304467 s | 131 391 bytes (56.4045% of original) | 0.0191236 s |
+| 5 | 0.0103944 s | 39 845 bytes (56.4761% of original) | 0.0063338 s |
 
 ### Analysis
 
