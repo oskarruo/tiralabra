@@ -11,6 +11,11 @@ using namespace std;
 
 namespace fs = std::filesystem;
 
+// The buffer size to be used for writing (16 KB).
+const int WRITE_BUFFER_SIZE = 16 * 1024;
+// The buffer size to be used for reading (16 KB).
+const int READ_BUFFER_SIZE = 16 * 1024;
+
 /**
  * @brief A writer class that is used to write bits to a .bin file.
  */

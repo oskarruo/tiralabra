@@ -21,7 +21,7 @@ Writer::Writer(const string filename) {
   out.open(filename, ios::binary);
   byte = 0;
   bit_count = 0;
-  buffer.reserve(4096);
+  buffer.reserve(WRITE_BUFFER_SIZE);
 }
 
 // The destructor class flushes the buffer and closes the file if it is open.
@@ -49,8 +49,8 @@ void Writer::write_bit(int bit) {
     bit_count = 0;
     byte = 0;
 
-    // If the buffer is full (4KB), flush it to the output file.
-    if (buffer.size() >= 4096) {
+    // If the buffer is full, flush it to the output file.
+    if (buffer.size() >= WRITE_BUFFER_SIZE) {
       flush();
     }
   }
@@ -128,7 +128,7 @@ Reader::Reader(fs::path filename) {
   end = false;
   next_end = false;
   buffer_index = 0;
-  next_buffer.resize(4096);
+  next_buffer.resize(READ_BUFFER_SIZE);
   in.read(next_buffer.data(), next_buffer.size());
   next_buffer.resize(in.gcount());
   refill_buffer();
@@ -195,7 +195,7 @@ char Reader::read_char() {
 }
 
 /**
- * @brief Refills the buffer by reading a 4 KB chunk from the input file.
+ * @brief Refills the buffer by reading a chunk from the input file.
  */
 void Reader::refill_buffer() {
   // Set the buffer to the next buffer and reset the buffer index.
@@ -205,7 +205,7 @@ void Reader::refill_buffer() {
   // If the buffer is not empty try to read the next buffer.
   if (!buffer.empty()) {
     next_buffer.clear();
-    next_buffer.resize(4096);
+    next_buffer.resize(READ_BUFFER_SIZE);
     in.read(next_buffer.data(), next_buffer.size());
     next_buffer.resize(in.gcount());
 
