@@ -9,8 +9,21 @@ The following tools are needed to build the program:
   - **GCC** is recommended, as the project has been tested on it. Specifically the unit tests or coverage may not function properly with other compilers such as MSVC
 
 Optional:
-- [gcovr](https://gcovr.com/en/stable/installation.html)
-   - To create local coverage reports. Note that coverage is also available via Codecov.
+- [python](https://www.python.org/downloads/)
+  
+  The following libraries are needed for running automated efficiency tests
+  - requests
+  - unidecode
+  - matplotlib
+  
+  The following are needed for creating test coverage reports
+  - gcovr
+
+The libraries can be installed with:
+```
+pip install requests unidecode matplotlib gcovr
+```
+
 
 ## Installation
 
@@ -31,7 +44,7 @@ cmake --build .
 
 **Note: as stated earlier, it is recommended to use GCC. If you have other compilers (e.g., MSVC), you can specify GCC by adding -G "MinGW Makefiles" to the cmake .. command (assuming you have MinGW installed).**
 
-## Running tests
+## Running unit tests
 
 After the project has built, the tests can be run in the build dir with:
 
@@ -39,13 +52,25 @@ After the project has built, the tests can be run in the build dir with:
 ctest
 ```
 
-(Optional) A local html coverage report can be created with:
+## (OPTIONAL) Creating an html coverage report:
+
+A local html coverage report can be created with
 
 ```
 gcovr -r .. --filter ../src/ --exclude '../test/.*' --html --html-details --gcov-ignore-parse-errors=suspicious_hits.warn -o coverage_report.html
 ```
 
-**Note: as specified earlier, gcovr is needed for this.**
+**Note: as specified earlier, python and gcovr are needed for this.**
+
+## (OPTIONAL) Running the automated efficiency tests 
+
+After the project has built and an executable exists in the build/src folder, the efficiency tests can be run automatically by running
+```
+python efficiency_tests.py
+```
+in the tests/efficiencytesting folder. This will print a markdown format table and plots of the results.
+
+**Note: as specified earlier, python, requests, unidecode, and matplotlib are needed for this.**
 
 ## Using the program
 
