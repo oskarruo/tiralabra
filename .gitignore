@@ -1,2 +1,6 @@
 .vscode
 build
+books
+main.exe
+*_decompressed.txt
+*_compressed.bin
