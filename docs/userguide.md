@@ -29,7 +29,7 @@ cmake ..
 cmake --build .
 ```
 
-**Note: as stated earlier, it is recommended to use GCC. If you're using another compiler (e.g., MSVC), you can specify GCC by adding -G "MinGW Makefiles" to the cmake .. command (assuming you have MinGW installed).**
+**Note: as stated earlier, it is recommended to use GCC. If you have other compilers (e.g., MSVC), you can specify GCC by adding -G "MinGW Makefiles" to the cmake .. command (assuming you have MinGW installed).**
 
 ## Running tests
 

@@ -33,8 +33,8 @@ The program structure can be represented as a flow chart:
 flowchart LR
   A[main/cc] <-->|gets command-line arguments| B[getopt]
   A <-.->|if decompress, to infer the algorithm| G((bitio.Reader))
-  A -.->|if lz or not specified| C[lz78]
-  A -.->|if huffman| D[huffman]
+  A -.->|if lz or not specified| C[lz_compress/lz_decompress]
+  A -.->|if huffman| D[huff_compress/huff_decompress]
   C -.->|if compress| E((bitio.Writer))
   C <-.->|if decompress| F((bitio.Reader))
   D -.->|if compress| E((bitio.Writer))
@@ -63,7 +63,7 @@ The efficiency testing of the algorithms is documented in the [testing report](t
 
 ## Potential flaws
 
-After analysing the times of each step in an algorithm, it seems that the majority of the time is taken by the writing and reading operations. Re-writing the writer/reader classes for better efficiency could potentially make the algorithms faster. 
+After analysing the times of each step in the algorithms, it seems that the majority of the time is taken by the writing and reading operations. Re-writing the writer/reader classes for better efficiency could potentially make the algorithms faster. 
 
 ## LLM usage
 
