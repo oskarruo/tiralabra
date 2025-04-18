@@ -2,7 +2,6 @@
 #define HUFFMAN_H
 
 #include <filesystem>
-#include <list>
 #include <string>
 using namespace std;
 namespace fs = std::filesystem;
