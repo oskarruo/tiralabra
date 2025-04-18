@@ -17,6 +17,7 @@ A project comparing the efficiency of LZ78 and Huffman coding compression/decomp
 - [Week 3](/docs/weeklyreports/weeklyreport3.md)
 - [Week 4](/docs/weeklyreports/weeklyreport4.md)
 - [Week 5](/docs/weeklyreports/weeklyreport5.md)
+- [Week 6](/docs/weeklyreports/weeklyreport6.md)
 
 ## Installation and usage
 
