@@ -46,7 +46,7 @@ def copy_executable(executable):
         executable_path = os.path.join("..", "..", "build", "src", executable)
     except FileNotFoundError:
         raise FileNotFoundError(
-            f"Executable not found at {executable_path}. Did you build the project? If the executable is in a different location, copy it manually to the efficienceytesting folder."
+            f"Executable not found at {executable_path}. Did you build the project? If the executable is in a different location, copy it manually to the efficiencytesting folder."
         )
 
     if platform.system() == "Windows":
