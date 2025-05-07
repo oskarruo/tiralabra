@@ -47,6 +47,8 @@ cmake ..
 cmake --build .
 ```
 
+If built with GCC, the program will be in build/src
+
 ### Using the program
 
 The program works on the command line followingly:

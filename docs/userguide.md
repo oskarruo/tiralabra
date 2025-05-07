@@ -74,7 +74,7 @@ in the tests/efficiencytesting folder. This will print a markdown format table a
 
 ## Using the program
 
-If built with GCC, the program will be located in the src directory of the build dir.
+If built with GCC, the program will be located in build/src
 
 The program works on the command line followingly:
 
