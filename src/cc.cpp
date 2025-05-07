@@ -119,6 +119,10 @@ int cc(int argc, char* argv[]) {
     } else if (decompress) {
       output_filename = input_filename.stem().string() + "_decompressed.txt";
     }
+  } else {
+    output_filename = fs::path(output_filename).replace_extension(
+        compress ? ".bin" : ".txt")
+        .string();
   }
 
   // Call the appropriate compression/decompression function.
