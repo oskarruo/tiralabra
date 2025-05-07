@@ -18,14 +18,36 @@ namespace fs = std::filesystem;
  * @param output_filename The name of the output .txt file.
  */
 void lz_compress(fs::path input_filename, string output_filename) {
-  // Read the input file into a string.
+  /*
+  Read the input file into a string.
+  (This could probably be done in a simpler way but at least
+  this way it works on Windows (yuck) too)
+  */
   string input = "";
   string line;
+  bool first_line = true;
   ifstream input_file(input_filename);
   if (input_file.is_open()) {
     while (getline(input_file, line)) {
-      input += line + "\n";
+      if (first_line) {
+        first_line = false;
+      } else {
+        input += "\n";
+      }
+      input += line;
     }
+
+    // Add a newline if needed.
+    if (!input.empty() && input_file.eof()) {
+      input_file.clear();
+      input_file.seekg(-1, ios::end);
+      char last_char;
+      input_file.get(last_char);
+      if (last_char == '\n') {
+        input += '\n';
+      }
+    }
+
     input_file.close();
   }
 
