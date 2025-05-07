@@ -84,6 +84,7 @@ int cc(int argc, char* argv[]) {
     cerr << "Input file " << input_filename << " is empty!" << endl;
     return 1;
   };
+  input_file.close();
   // Automatically set the algorithm based on the input file extension.
   // If the input is a .bin file check the first bit which indicates the
   // algorithm used.
