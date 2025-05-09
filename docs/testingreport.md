@@ -12,12 +12,12 @@ The program is tested automatically with unit tests and manually with efficiency
 
 ## Unit testing
 
-The compression algorithms are unit tested with varying input sizes from 1 byte to ~1MB. 
+The compression algorithms are unit tested with varying input sizes from 1 byte to ~10MB. 
 The tests compare each line of the original and decompressed files and fails if they don't match.
 The main function of the program is unit tested with possible error cases.
 The main tests also verify that the main function interacts correctly with the compression functions.
 So they could be considered as end-to-end tests as well. 
-The unit tests can be replicated by building the project with CMake (using GCC) and then running CTest in the build directory.
+The unit tests can be replicated by building the project with CMake and then running CTest in the build directory.
 
 ## Efficiency testing
 
