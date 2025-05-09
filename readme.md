@@ -21,16 +21,24 @@ A project comparing the efficiency of LZ78 and Huffman coding compression/decomp
 
 ## Installation and usage
 
-**A more detailed guide can be found in the [docs](/docs/userguide.md)**
+**A more detailed guide can be found in the [docs folder](/docs/userguide.md)**
 
-### Prerequisites
+### Downloading
+
+You can download the pre-compiled versions of the program for your platform:
+- **For Linux:** [Download](https://github.com/oskarruo/tiralabra/releases/download/final/main)
+- **For Windows:** [Download](https://github.com/oskarruo/tiralabra/releases/download/final/main.exe)
+
+Alternatively, you can build the program from source:
+
+### Building prerequisites
 
 The following tools are needed to build the program:
 
 - [CMake](https://cmake.org/download/) (version 3.15 and up)
 - A C++ compiler (**GCC** is recommended, and these instructions are specifically written for it)
 
-### Installation
+### Building
 
 Clone the project:
 

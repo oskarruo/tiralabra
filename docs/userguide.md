@@ -1,6 +1,16 @@
 # User guide
 
-## Prerequisites
+## Downloading
+
+You can download the pre-compiled versions of the program for your platform:
+- **For Linux:** [Download](https://github.com/oskarruo/tiralabra/releases/download/final/main)
+- **For Windows:** [Download](https://github.com/oskarruo/tiralabra/releases/download/final/main.exe)
+
+Alternatively, you can build the program from source:
+
+## Building
+
+### Prerequisites
 
 The following tools are needed to build the program:
 
@@ -24,7 +34,7 @@ The libraries can be installed with:
 pip install requests unidecode matplotlib gcovr
 ```
 
-## Installation
+### Building
 
 1. Clone the project:
   ```
