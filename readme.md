@@ -28,7 +28,7 @@ A project comparing the efficiency of LZ78 and Huffman coding compression/decomp
 The following tools are needed to build the program:
 
 - [CMake](https://cmake.org/download/) (version 3.15 and up)
-- A C++ compiler (**GCC** is recommended)
+- A C++ compiler (**GCC** is recommended, and these instructions are specifically written for it)
 
 ### Installation
 
