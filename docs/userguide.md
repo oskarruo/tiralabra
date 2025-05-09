@@ -9,7 +9,7 @@ The following tools are needed to build the program:
   - **GCC** is recommended, as the project has been tested on it. Specifically the unit tests or coverage may not function properly with other compilers such as MSVC
 
 Optional:
-- [python](https://www.python.org/downloads/)
+- [Python](https://www.python.org/downloads/)
   
   The following libraries are needed for running automated efficiency tests
   - requests
@@ -24,25 +24,35 @@ The libraries can be installed with:
 pip install requests unidecode matplotlib gcovr
 ```
 
-
 ## Installation
 
-Clone the project:
+1. Clone the project:
+  ```
+  git clone https://github.com/oskarruo/tiralabra
+  ```
 
-```
-git clone https://github.com/oskarruo/tiralabra
-```
+2. In the project directory create a build folder:
+  ```
+  mkdir build
+  cd build
+  ```
 
-In the project directory create a build folder, configure the project and build it:
+3. Configure the project for Debug or Release:
+  - For Release (this will compile **with** optimizations and coverage will not be available):
+    ```
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    ```
+  - For Debug (this will compile **without** optimizations and coverage only works with this option):
+    ```
+    cmake -DCMAKE_BUILD_TYPE=Debug ..
+    ```
 
-```
-mkdir build
-cd build
-cmake ..
-cmake --build .
-```
+4. Build the project:
+  ```
+  cmake --build .
+  ```
 
-**Note: as stated earlier, it is recommended to use GCC. If you have other compilers (e.g., MSVC), you can specify GCC by adding -G "MinGW Makefiles" to the cmake .. command (assuming you have MinGW installed).**
+**Note: as stated earlier, it is recommended to use GCC as these instructions are specifically written for it. If you have other compilers (e.g., MSVC), you can specify GCC by adding -G "MinGW Makefiles" to the cmake .. command (assuming you have MinGW installed).**
 
 ## Running unit tests
 
@@ -60,7 +70,7 @@ A local html coverage report can be created with
 gcovr -r .. --filter ../src/ --exclude '../test/.*' --html --html-details --gcov-ignore-parse-errors=suspicious_hits.warn -o coverage_report.html
 ```
 
-**Note: as specified earlier, python and gcovr are needed for this.**
+**Note: as specified earlier, python, gcovr, and building in debug are needed for this.**
 
 ## (OPTIONAL) Running the automated efficiency tests 
 

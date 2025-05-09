@@ -43,7 +43,7 @@ In the project directory create a build folder, configure the project and build 
 ```
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build .
 ```
 
