@@ -38,29 +38,29 @@ The selected test inputs are:
 ### Results: LZ78
 
 | File Number | Compression time | Compressed size | Decompression time |
-|---- | ----- | ------------- | ---- |
-| 1 | 0.997554 s | 2 523 983 bytes (41.384% of original) | 0.947925 s |
-| 2 | 0.636617 s | 1 549 077 bytes (42.4689% of original) | 0.622523 s |
-| 3 | 0.248689 s | 676 879 bytes (50.0583% of original)  | 0.280689 s |
-| 4 | 0.0496594 s | 119 188 bytes (51.1659% of original) | 0.0443276 s |
-| 5 | 0.0144075 s | 38 446 bytes (54.4931% of original) | 0.0174719 s |
+|-------------|------------------|------------------|-------------------|
+| 1 | 0.341998 s | 2 542 288 bytes (41.1750% of original) | 0.384091 s |
+| 2 | 0.210535 s | 1 554 548 bytes (42.3823% of original) | 0.247716 s |
+| 3 | 0.080851 s | 677 074 bytes (50.0663% of original) | 0.107590 s |
+| 4 | 0.012414 s | 119 289 bytes (51.1526% of original) | 0.015879 s |
+| 5 | 0.004702 s | 38 534 bytes (54.4843% of original) | 0.005996 s |
 
 ### Results: Huffman
 
 | File Number | Compression time | Compressed size | Decompression time |
-|---- | ----- | ------------- | ---- |
-| 1 | 0.773198 s | 3 503 596 bytes (57.4461% of original) | 0.491377 s |
-| 2 | 0.461918 s | 2 054 791 bytes (56.3334% of original) | 0.294589 s |
-| 3 | 0.177548 s | 774 266 bytes (57.2605% of original) | 0.111617 s |
-| 4 | 0.0304467 s | 131 391 bytes (56.4045% of original) | 0.0191236 s |
-| 5 | 0.0103944 s | 39 845 bytes (56.4761% of original) | 0.0063338 s |
+|-------------|------------------|------------------|-------------------|
+| 1 | 0.150733 s | 3 558 160 bytes (57.6281% of original) | 0.219807 s |
+| 2 | 0.094061 s | 2 077 634 bytes (56.6434% of original) | 0.131722 s |
+| 3 | 0.036302 s | 774 466 bytes (57.2680% of original) | 0.049493 s |
+| 4 | 0.006366 s | 131 618 bytes (56.4394% of original) | 0.008785 s |
+| 5 | 0.002350 s | 39 964 bytes (56.5062% of original) | 0.003145 s |
 
 ### Analysis
 
 ![image](test_graphs.png)
 
 Based on the test results it seems that the Huffman coding algorithm is faster in both compression and decompression.
-This time difference gap seems to grow for both compression and decompression with the latter growing faster.
+This time difference gap seems to grow for both compression and decompression.
 
 In terms of compression efficiency, the LZ78 gets better results.
 As the input size grows larger, the LZ78 algorithm gets more size reduction.
